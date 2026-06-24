@@ -1,72 +1,74 @@
 import { useEffect, useState } from "react";
-import { getProfile, logoutUser } from "../Services/authServices";
+import { getProfile } from "../Services/authServices";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
+import Sidebar from "../components/Sidebar";
+import Topbar from "../Components/Topbar";
 
 function Dashboard() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const fetchProfile = async () => {
-      try {
-        const data = await getProfile();
-        setUser(data.user);
-      } catch (error) {
-        console.error(error);
-        navigate("/login");
-      }
-    };
+    try {
+      const data = await getProfile();
+      setUser(data.user);
+    } catch (error) {
+      console.error(error);
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     fetchProfile();
   }, [navigate]);
 
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      navigate("/login");
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   return (
-  <div className="dashboard-container">
-    <h1 className="dashboard-title"> Dashboard </h1>
+    <div className="layout">
+      <Sidebar />
 
-    {user ? (
-      <div className="card profile-card">
+      <div className="main-content">
+        <Topbar pageTitle="Dashboard" />
 
-        <div className="avatar">
-          {user.name.charAt(0).toUpperCase()}
-        </div>
+        <div className="dashboard-container">
+          {user ? (
+            <div className="welcome-card">
 
-        <h2>Welcome, {user.name} 👋</h2>
+              <div className="card-body">
+                <div className="avatar-lg">
+                  {user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="card-identity">
+                  <h2>{user.name}</h2>
+                  <div className="status-row">
+                    <span className="status-dot" /> Active today
+                  </div>
+                </div>
+              </div>
 
-        <p> <strong>Name:</strong> {user.name} </p>
-        <p> <strong>Email:</strong> {user.email} </p>
+              <div className="detail-grid">
+                <div className="detail-item">
+                  <div className="label">Email</div>
+                  <div className="value">{user.email}</div>
+                </div>
+              </div>
 
-        <div className="button-group">
-          <button
-            className="btn"
-            onClick={() => navigate("/profile")}
-          >
-            Manage Profile
-          </button>
-
-          <button
-            className="btn logout-btn"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+              <div className="card-actions">
+                <button
+                  className="btn-primary"
+                  onClick={() => navigate("/profile")}
+                >
+                  Manage Profile
+                </button>
+              </div>
+            </div>
+          ) : (
+            <p className="loading">Loading...</p>
+          )}
         </div>
       </div>
-    ) : (
-      <p className="loading">Loading...</p>
-    )}
-  </div>
-);
+    </div>
+  );
 }
 
 export default Dashboard;

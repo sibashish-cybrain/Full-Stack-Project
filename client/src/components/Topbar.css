@@ -1,0 +1,33 @@
+.topbar {
+  background: #151b2e;
+  padding: 18px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.topbar h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+  letter-spacing: 0.2px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.welcome-text {
+  font-size: 13.5px;
+  color: #9aa3b8;
+}
+
+.welcome-text b {
+  color: #ffffff;
+  font-weight: 600;
+}
