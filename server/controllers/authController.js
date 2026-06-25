@@ -107,12 +107,13 @@ const login = async (req, res, next) => {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 1 * 60 * 1000
+      maxAge: 15 * 60 * 1000
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: false,
+      sameSite: "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
