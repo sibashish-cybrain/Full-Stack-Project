@@ -1,0 +1,180 @@
+/* =========================================================
+   Admin Dashboard — Users list
+   ========================================================= */
+
+.users-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.users-header h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2430;
+  margin: 0 0 4px;
+  text-align: left;
+}
+
+.users-header p {
+  font-size: 13.5px;
+  color: #6b7280;
+  margin: 0;
+  text-align: left;
+}
+
+.users-count {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #5b3fa6;
+  background: rgba(91, 63, 166, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.users-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(20, 30, 60, 0.06);
+  overflow: hidden;
+}
+
+.users-empty {
+  padding: 48px 24px;
+  text-align: center;
+  color: #8b93a3;
+  font-size: 14.5px;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #eef0f4;
+  transition: background 0.15s ease;
+}
+
+.user-row:last-child {
+  border-bottom: none;
+}
+
+.user-row:hover {
+  background: #f8f9fc;
+}
+
+.user-identity {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00d9c0, #5b3fa6);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.user-text {
+  min-width: 0;
+  text-align: left;
+}
+
+.user-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1f2430;
+}
+
+.user-email {
+  font-size: 12.5px;
+  color: #6b7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.role-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.role-admin {
+  background: rgba(0, 217, 192, 0.15);
+  color: #0d8c7a;
+}
+
+.role-user {
+  background: #eef0f4;
+  color: #6b7280;
+}
+
+.delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid #f1c9c9;
+  color: #d3453a;
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.delete-btn:hover {
+  background: #fdeceb;
+  border-color: #e9a3a0;
+}
+
+.delete-btn:focus-visible {
+  outline: 2px solid #00d9c0;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .user-row {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .users-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .role-badge {
+    order: 1;
+  }
+
+  .delete-btn {
+    order: 2;
+    margin-left: auto;
+  }
+}

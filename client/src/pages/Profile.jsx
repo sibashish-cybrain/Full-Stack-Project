@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { getProfile, updateProfile, changePassword} from "../Services/authServices";
+import { getProfile, updateProfile, changePassword } from "../Services/authServices";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
+import Topbar from "../components/Topbar";
 import "./Dashboard.css";
+import "./Profile.css";
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [profileData, setProfileData] = useState({
     name: "",
-    email: ""
+    email: "",
   });
 
   const [passwordData, setPasswordData] = useState({
     currentPassword: "",
-    newPassword: ""
+    newPassword: "",
   });
 
   const navigate = useNavigate();
@@ -22,14 +25,14 @@ function Profile() {
       setUser(data.user);
       setProfileData({
         name: data.user.name,
-        email: data.user.email
+        email: data.user.email,
       });
     } catch (error) {
       console.error(error);
       navigate("/login");
     }
   };
-    
+
   useEffect(() => {
     fetchProfile();
   }, [navigate]);
@@ -37,14 +40,14 @@ function Profile() {
   const handleProfileChange = (e) => {
     setProfileData({
       ...profileData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handlePasswordInput = (e) => {
     setPasswordData({
       ...passwordData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
@@ -57,13 +60,10 @@ function Profile() {
 
       setProfileData({
         name: response.user.name,
-        email: response.user.email
+        email: response.user.email,
       });
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Profile update failed"
-      );
+      alert(error.response?.data?.message || "Profile update failed");
     }
   };
 
@@ -74,118 +74,130 @@ function Profile() {
       alert(response.message);
       setPasswordData({
         currentPassword: "",
-        newPassword: ""
+        newPassword: "",
       });
     } catch (error) {
-      alert(
-        error.response?.data?.message ||
-        "Password change failed"
-      );
+      alert(error.response?.data?.message || "Password change failed");
     }
   };
 
   return (
-    <div className="dashboard-container">
-      <div className="profile-header">
-        <h1>My Profile</h1>
-        <p>Manage your account settings</p>
+    <div className="layout">
+      <Sidebar />
+
+      <div className="main-content">
+        <Topbar pageTitle="Profile" />
+
+        <div className="dashboard-container">
+          {user ? (
+            <>
+              <div className="welcome-card">
+                <div className="card-body">
+                  <div className="avatar-lg">
+                    {user.name.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="card-identity">
+                    <h2>{user.name}'s Profile</h2>
+                    <div className="status-row">
+                      <span className="status-dot" /> Active today
+                    </div>
+                  </div>
+                </div>
+
+                <div className="detail-grid">
+                  <div className="detail-item">
+                    <div className="label">Email</div>
+                    <div className="value">{user.email}</div>
+                  </div>
+                </div>
+
+                <div className="card-actions profile-actions">
+                  <button
+                    className="btn-primary"
+                    onClick={() => navigate("/dashboard")}
+                  >
+                    ← Back to Dashboard
+                  </button>
+
+                  {user.role === "admin" && (
+                    <button
+                      className="btn-secondary"
+                      onClick={() => navigate("/admin")}
+                    >
+                      Admin Dashboard
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              <div className="forms-container">
+                <div className="card profile-form-card">
+                  <h2>Update Profile</h2>
+
+                  <form onSubmit={handleUpdateProfile} className="form">
+                    <input
+                      type="text"
+                      name="name"
+                      value={profileData.name}
+                      onChange={handleProfileChange}
+                      placeholder="Name"
+                      className="input-field"
+                      required
+                    />
+
+                    <input
+                      type="email"
+                      name="email"
+                      value={profileData.email}
+                      onChange={handleProfileChange}
+                      placeholder="Email"
+                      className="input-field"
+                      required
+                    />
+
+                    <button type="submit" className="btn">
+                      Update Profile
+                    </button>
+                  </form>
+                </div>
+
+                <div className="card profile-form-card">
+                  <h2>Change Password</h2>
+
+                  <form onSubmit={handleChangePassword} className="form">
+                    <input
+                      type="password"
+                      name="currentPassword"
+                      value={passwordData.currentPassword}
+                      onChange={handlePasswordInput}
+                      placeholder="Current Password"
+                      className="input-field"
+                      required
+                    />
+
+                    <input
+                      type="password"
+                      name="newPassword"
+                      value={passwordData.newPassword}
+                      onChange={handlePasswordInput}
+                      placeholder="New Password"
+                      className="input-field"
+                      required
+                      minLength={8}
+                    />
+
+                    <button type="submit" className="btn">
+                      Change Password
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </>
+          ) : (
+            <p className="loading">Loading...</p>
+          )}
+        </div>
       </div>
-      {user ? (
-        <>
-          <div className="card profile-card">
-            <div className="avatar">
-              {user.name.charAt(0).toUpperCase()}
-            </div>
-
-            <h2>{user.name}'s Profile</h2>
-
-            <p><strong>Name:</strong> {user.name}</p>
-            <p><strong>Email:</strong> {user.email}</p>
-
-            <div className="button-group">
-              <button
-                className="nav-btn dashboard-btn"
-                onClick={() => navigate("/dashboard")}
-              >
-                ← Dashboard
-              </button>
-
-              {user.role === "admin" && (
-                <button
-                  className="nav-btn admin-btn"
-                  onClick={() => navigate("/admin")}
-                >
-                  🛡 Admin Dashboard
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="forms-container">
-            <div className="card">
-              <h2>Update Profile</h2>
-
-              <form onSubmit={handleUpdateProfile} className="form" >
-                <input
-                  type="text"
-                  name="name"
-                  value={profileData.name}
-                  onChange={handleProfileChange}
-                  placeholder="Name"
-                  className="input-field"
-                  required
-                />
-
-                <input
-                  type="email"
-                  name="email"
-                  value={profileData.email}
-                  onChange={handleProfileChange}
-                  placeholder="Email"
-                  className="input-field"
-                  required
-                />
-
-                <button type="submit" className="btn" > Update Profile </button>
-              </form>
-            </div>
-
-            <div className="card">
-              <h2>Change Password</h2>
-
-              <form
-                onSubmit={handleChangePassword}
-                className="form"
-              >
-                <input
-                  type="password"
-                  name="currentPassword"
-                  value={passwordData.currentPassword}
-                  onChange={handlePasswordInput}
-                  placeholder="Current Password"
-                  className="input-field"
-                  required
-                />
-
-                <input
-                  type="password"
-                  name="newPassword"
-                  value={passwordData.newPassword}
-                  onChange={handlePasswordInput}
-                  placeholder="New Password"
-                  className="input-field"
-                  required
-                  minLength={8}
-                />
-
-                <button type="submit" className="btn" > Change Password </button>
-              </form>
-            </div>
-          </div>
-        </>
-      ) : (
-        <p className="loading">Loading...</p>
-      )}
     </div>
   );
 }

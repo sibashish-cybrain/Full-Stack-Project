@@ -1,19 +1,19 @@
 .topbar {
-  background: #151b2e;
+  background: linear-gradient(120deg, #150f2e 0%, #1f1640 100%);
   padding: 18px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 2px 12px rgba(21, 15, 46, 0.25);
 }
 
 .topbar h1 {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
   color: #ffffff;
-  letter-spacing: 0.2px;
+  letter-spacing: 0.3px;
 }
 
 .topbar-right {
@@ -24,7 +24,7 @@
 
 .welcome-text {
   font-size: 13.5px;
-  color: #9aa3b8;
+  color: #b3a8d6;
 }
 
 .welcome-text b {
