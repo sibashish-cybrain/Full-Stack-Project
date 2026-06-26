@@ -1,7 +1,3 @@
-/* =========================================================
-   Profile page — extends Dashboard.css's welcome-card pattern
-   ========================================================= */
-
 .profile-actions {
   display: flex;
   gap: 12px;
@@ -25,9 +21,6 @@
   border-color: #5b3fa6;
 }
 
-/* Left-align the form card headers — Dashboard.css's .card h2
-   has no text-align set, but inherited centering from elsewhere
-   was making these sit centered. Make it explicit. */
 .profile-form-card h2 {
   text-align: left;
   font-size: 17px;

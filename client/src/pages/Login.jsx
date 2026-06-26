@@ -6,29 +6,24 @@ import { Link } from "react-router-dom";
 
 function Login() {
   const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
     email: "",
     password: ""
   });
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const response = await loginUser(formData);
       alert(response.message);
       navigate("/dashboard");
     } catch (error) {
       console.error(error);
-
       alert(
         error.response?.data?.message ||
         "Login failed"

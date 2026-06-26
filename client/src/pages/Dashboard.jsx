@@ -8,7 +8,6 @@ import Topbar from "../Components/Topbar";
 function Dashboard() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
-
   const fetchProfile = async () => {
     try {
       const data = await getProfile();

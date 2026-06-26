@@ -9,7 +9,6 @@ const sendEmail = require("../utils/sendEmail");
 const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
-
     if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -100,7 +99,6 @@ const login = async (req, res, next) => {
       .digest("hex");
 
     user.refreshToken = hashedRefreshToken;
-
     await user.save();
 
     res.cookie("accessToken", accessToken, {
@@ -130,7 +128,6 @@ const login = async (req, res, next) => {
 const logoutUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
-
     if (user) {
       user.refreshToken = null;
       await user.save();
@@ -143,7 +140,6 @@ const logoutUser = async (req, res, next) => {
       success: true,
       message: "Logout Successful"
     });
-
   } catch (error) {
     next(error);
   }
@@ -243,7 +239,6 @@ const changePassword = async (req, res, next) => {
 const forgotPassword = async (req, res, next) => {
   try {
     const { email } = req.body;
-
     const user = await User.findOne({
       email
     });
@@ -260,9 +255,7 @@ const forgotPassword = async (req, res, next) => {
     user.resetPasswordExpire = Date.now() + 15 * 60 * 1000;
 
     await user.save();
-
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
-
     const message = `
         You requested for a password reset.
 
@@ -323,10 +316,8 @@ const resetPassword = async (req, res, next) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-
     const hashedPassword =
       await bcrypt.hash(password, salt);
-
     user.password = hashedPassword;
 
     user.resetPasswordToken = undefined;
@@ -338,7 +329,6 @@ const resetPassword = async (req, res, next) => {
       success: true,
       message: "Password reset successful"
     });
-
   } catch(error){
     next(error);
   }
@@ -347,9 +337,7 @@ const resetPassword = async (req, res, next) => {
 // Refresh Token
 const refreshAccessToken = async (req, res, next) => {
   try {
-
     const refreshToken = req.cookies.refreshToken;
-
     if (!refreshToken) {
       return res.status(401).json({
         success: false,
@@ -364,7 +352,6 @@ const refreshAccessToken = async (req, res, next) => {
     );
 
     const user = await User.findById(decoded.id);
-
     if (!user) {
       return res.status(401).json({
         success: false,
@@ -439,7 +426,6 @@ const refreshAccessToken = async (req, res, next) => {
       success: true,
       message: "Access token refreshed"
     });
-
   } catch (error) {
     next(error);
   }

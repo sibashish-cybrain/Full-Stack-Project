@@ -1,6 +1,8 @@
+const dotenv = require("dotenv");
+dotenv.config();
+
 //External Imports
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
@@ -12,8 +14,6 @@ const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-
-dotenv.config();
 
 if (!process.env.MONGODB_URI) {
   console.error("MONGODB_URI is not defined");

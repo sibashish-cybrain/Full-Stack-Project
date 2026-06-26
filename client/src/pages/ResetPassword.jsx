@@ -5,25 +5,19 @@ import { resetPassword } from "../Services/authServices";
 function ResetPassword() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const { token } = useParams();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       setLoading(true);
-
       const data = await resetPassword(
         token,
         password
       );
-
       alert(data.message);
-
       navigate("/login");
-
     } catch (error) {
       alert(
         error.response?.data?.message ||
@@ -45,7 +39,6 @@ function ResetPassword() {
         }}
       >
         <h2 style={{ marginBottom: "10px" }}> Reset Password </h2>
-
         <p
           style={{
             color: "#666",

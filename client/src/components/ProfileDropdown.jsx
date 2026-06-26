@@ -3,13 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../Services/authServices";
 import "./ProfileDropdown.css";
 
-/**
- * ProfileDropdown
- * Props:
- *   user: { name: string, email: string } | null
- */
-
-// Small inline SVG icons (Feather-style, stroke-based, dependency-free)
 const ProfileIcon = () => (
   <svg className="icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
