@@ -7,7 +7,6 @@ import "./AdminDashboard.css";
 
 function AdminDashboard() {
   const [users, setUsers] = useState([]);
-
   const fetchUsers = async () => {
     try {
       const data = await getAllUsers();

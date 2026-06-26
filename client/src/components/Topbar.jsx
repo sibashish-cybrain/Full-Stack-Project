@@ -5,9 +5,7 @@ import "./Topbar.css";
 
 function Topbar({ pageTitle = "Dashboard" }) {
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
+  const fetchProfile = async () => {
       try {
         const data = await getProfile();
         setUser(data.user);
@@ -16,24 +14,20 @@ function Topbar({ pageTitle = "Dashboard" }) {
       }
     };
 
+  useEffect(() => {
     fetchProfile();
   }, []);
 
   return (
-  <div className="topbar">
-
-    <h1>{pageTitle}</h1>
-
-    <div className="topbar-right">
-
-      <div className="profile-wrapper">
-        <ProfileDropdown user={user} />
+    <div className="topbar">
+      <h1>{pageTitle}</h1>
+      <div className="topbar-right">
+        <div className="profile-wrapper">
+          <ProfileDropdown user={user} />
+        </div>
       </div>
-
     </div>
-
-  </div>
-);
+  );
 }
 
 export default Topbar;

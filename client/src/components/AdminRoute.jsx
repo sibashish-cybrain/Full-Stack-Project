@@ -7,14 +7,14 @@ function AdminRoute({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const checkAdmin = async () => {
-      try {
-        const data = await getProfile();
-        setIsAdmin(data.user.role === "admin");
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    };
+    try {
+      const data = await getProfile();
+      setIsAdmin(data.user.role === "admin");
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
 
   useEffect(() => {
     checkAdmin();
