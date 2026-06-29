@@ -16,9 +16,27 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
+    countryCode: {
+      type: String,
+      default: "+91"
+    },
+
+    mobile: {
+      type: String,
+      trim: true,
+      default: ""
+    },
+
+    googleId: {
+      type: String,
+      default: null,
+    },
+
     password: {
       type: String,
-      required: [true, "Password is required"],
+      required: function () {
+        return !this.googleId;
+      },
     },
 
     role: {

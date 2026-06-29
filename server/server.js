@@ -1,3 +1,4 @@
+// Load Environment Variables
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -8,22 +9,28 @@ const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
 //Local Imports
 const connectDB = require("./config/db");
 const errorHandler = require("./middleware/errorMiddleware");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const passport = require("./config/passport");
 
+// Validate Required Environment Variables
 if (!process.env.MONGODB_URI) {
   console.error("MONGODB_URI is not defined");
   process.exit(1);
 }
 
+// Connect to MongoDB
 connectDB();
 
+// Initialize Express App
 const app = express();
 
+// Configure Rate Limiter
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 200,
@@ -36,27 +43,44 @@ const limiter = rateLimit({
 });
 
 // Security Middleware
+
+// Adds various HTTP security headers
 app.use(helmet());
 
+// Allows frontend to communicate with backend
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,
   })
 );
 
+// Logs every incoming request
 app.use(morgan("dev"));
 
-// Request Parsing
+// Applies rate limiting
+app.use(limiter);
+
+// Request Parsing Middleware
 app.use(express.json());
 app.use(cookieParser());
 
-// Request Logging
-app.use(limiter);
+// Session Configuration
+// Required for Passport Authentication
+app.use(
+  session({
+    secret: process.env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
-// Routes
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Application Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-
 app.get("/", (req, res) => {
     res.send("HRMS Backend Running...");
 });
@@ -64,8 +88,8 @@ app.get("/", (req, res) => {
 // Global Error Handler
 app.use(errorHandler);
 
+// Start Server
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

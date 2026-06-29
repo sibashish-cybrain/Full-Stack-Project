@@ -8,8 +8,15 @@ const sendEmail = require("../utils/sendEmail");
 // Authentication
 const register = async (req, res, next) => {
   try {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
+    const { name, email, countryCode, mobile, password } = req.body;
+
+    if (
+      !name ||
+      !email ||
+      !countryCode ||
+      !mobile ||
+      !password
+    ) {
       return res.status(400).json({
         success: false,
         message: "All fields are required"
@@ -30,6 +37,8 @@ const register = async (req, res, next) => {
     const newUser = await User.create({
       name,
       email,
+      countryCode,
+      mobile,
       password: hashedPassword
     });
 
