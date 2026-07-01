@@ -10,6 +10,7 @@ const rateLimit = require("express-rate-limit");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const path = require("path");
 
 //Local Imports
 const connectDB = require("./config/db");
@@ -45,8 +46,13 @@ const limiter = rateLimit({
 // Security Middleware
 
 // Adds various HTTP security headers
-app.use(helmet());
-
+app.use(
+  helmet({
+    crossOriginResourcePolicy: {
+      policy: "cross-origin",
+    },
+  })
+);
 // Allows frontend to communicate with backend
 app.use(cors({
     origin: "http://localhost:5173",
@@ -64,6 +70,11 @@ app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 
+// Serve uploaded images
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 // Session Configuration
 // Required for Passport Authentication
 app.use(

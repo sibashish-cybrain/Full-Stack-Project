@@ -204,6 +204,35 @@ const updateProfile = async (req, res, next) => {
   }
 };
 
+const uploadProfileImage = async (req, res, next) => {
+  try {
+
+    if (!req.file) {
+      return res.status(400).json({
+        success: false,
+        message: "Please upload an image"
+      });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        profileImage: `/uploads/${req.file.filename}`
+      },
+      { new: true }
+    ).select("-password -refreshToken");
+
+    res.status(200).json({
+      success: true,
+      message: "Profile image uploaded successfully",
+      user
+    });
+
+  } catch (error) {
+    next(error);
+  }
+};
+
 const changePassword = async (req, res, next) => {
   try {
     const { currentPassword, newPassword } = req.body;
@@ -446,6 +475,7 @@ module.exports = {
   profile,
   logoutUser,
   updateProfile,
+  uploadProfileImage,
   changePassword,
   forgotPassword,
   resetPassword,

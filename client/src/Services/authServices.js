@@ -56,6 +56,21 @@ export const updateProfile = async (userData) => {
   return response.data;
 };
 
+export const uploadProfileImage = async (formData) => {
+  const response = await axios.put(
+    "http://localhost:5000/api/auth/upload-profile-image",
+    formData,
+    {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+
+  return response.data;
+};
+
 export const changePassword = async (passwordData) => {
   const response = await axios.put(
     `${API_URL}/change-password`,

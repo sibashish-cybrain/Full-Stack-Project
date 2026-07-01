@@ -35,7 +35,15 @@ function Dashboard() {
 
               <div className="card-body">
                 <div className="avatar-lg">
-                  {user.name.charAt(0).toUpperCase()}
+                  {user.profileImage ? (
+                    <img
+                      src={`http://localhost:5000${user.profileImage}`}
+                      alt="Profile"
+                      className="dashboard-avatar"
+                    />
+                  ) : (
+                    user.name.charAt(0).toUpperCase()
+                  )}
                 </div>
                 <div className="card-identity">
                   <h2>{user.name}</h2>

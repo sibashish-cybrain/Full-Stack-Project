@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProfile, updateProfile, changePassword } from "../Services/authServices";
 import { useNavigate } from "react-router-dom";
+import { uploadProfileImage } from "../Services/authServices";
 import Sidebar from "../components/Sidebar";
 import Topbar from "../components/Topbar";
 import "./Dashboard.css";
@@ -81,6 +82,26 @@ function Profile() {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const formData = new FormData();
+    formData.append("profileImage", file);
+    try {
+      const response = await uploadProfileImage(formData);
+      setUser(response.user);
+      alert("Profile image updated");
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+        "Upload failed"
+      );
+    }
+  };
+
+  console.log(user);
+  console.log(user?.profileImage);
+
   return (
     <div className="layout">
       <Sidebar />
@@ -93,8 +114,30 @@ function Profile() {
             <>
               <div className="welcome-card">
                 <div className="card-body">
-                  <div className="avatar-lg">
-                    {user.name.charAt(0).toUpperCase()}
+                  <div className="profile-image-section">
+
+                    <img
+                      src={
+                        user?.profileImage
+                          ? `http://localhost:5000${user.profileImage}`
+                          : "/default-avatar.png"
+                      }
+                      alt="Profile"
+                      className="profile-image"
+                    />
+
+                    <input
+                      type="file"
+                      id="profileUpload"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      hidden
+                    />
+
+                    <label htmlFor="profileUpload" className="upload-btn">
+                      Change Photo
+                    </label>
+
                   </div>
                   <div className="card-identity">
                     <h2>{user.name}'s Profile</h2>
