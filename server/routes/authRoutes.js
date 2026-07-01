@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 const passport = require("../config/passport");
 const User = require("../models/User");
 
@@ -11,6 +12,7 @@ const {
   profile,
   logoutUser,
   updateProfile,
+  uploadProfileImage,
   changePassword,
   forgotPassword,
   resetPassword,
@@ -104,6 +106,7 @@ router.post("/logout", authMiddleware, logoutUser);
 // User Profile
 router.get("/profile", authMiddleware, profile);
 router.put("/update-profile", authMiddleware, updateProfile);
+router.put("/upload-profile-image", authMiddleware, upload.single("profileImage"), uploadProfileImage);
 router.put("/change-password", authMiddleware, changePassword);
 
 // Password Reset

@@ -87,8 +87,18 @@ function ProfileDropdown({ user }) {
 
       <div className={`dropdown ${open ? "show" : ""}`} role="menu">
         <div className="dropdown-header">
-          <div className="avatar">{initial}</div>
-          <div>
+            <div className="avatar">
+              {user?.profileImage ? (
+                <img
+                  src={`http://localhost:5000${user.profileImage}`}
+                  alt="Profile"
+                  className="dropdown-avatar"
+                />
+              ) : (
+                initial
+              )}
+            </div>          
+            <div>
             <div className="name">{user?.name || "Loading..."}</div>
             <div className="email" title={user?.email || ""}>
               {user?.email || ""}
