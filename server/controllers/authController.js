@@ -210,14 +210,15 @@ const uploadProfileImage = async (req, res, next) => {
     if (!req.file) {
       return res.status(400).json({
         success: false,
-        message: "Please upload an image"
+        message: "Please upload an image",
       });
     }
 
     const user = await User.findByIdAndUpdate(
       req.user.id,
       {
-        profileImage: `/uploads/${req.file.filename}`
+        // Cloudinary returns the secure image URL
+        profileImage: req.file.path,
       },
       { new: true }
     ).select("-password -refreshToken");
@@ -225,7 +226,7 @@ const uploadProfileImage = async (req, res, next) => {
     res.status(200).json({
       success: true,
       message: "Profile image uploaded successfully",
-      user
+      user,
     });
 
   } catch (error) {

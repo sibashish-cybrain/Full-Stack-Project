@@ -119,7 +119,7 @@ function Profile() {
                     <img
                       src={
                         user?.profileImage
-                          ? `http://localhost:5000${user.profileImage}`
+                          ? user.profileImage
                           : "/default-avatar.png"
                       }
                       alt="Profile"

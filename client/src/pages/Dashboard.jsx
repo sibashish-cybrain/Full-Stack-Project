@@ -37,7 +37,7 @@ function Dashboard() {
                 <div className="avatar-lg">
                   {user.profileImage ? (
                     <img
-                      src={`http://localhost:5000${user.profileImage}`}
+                      src={user.profileImage}
                       alt="Profile"
                       className="dashboard-avatar"
                     />
