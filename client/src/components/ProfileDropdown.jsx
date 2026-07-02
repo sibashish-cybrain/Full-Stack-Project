@@ -90,9 +90,10 @@ function ProfileDropdown({ user }) {
             <div className="avatar">
               {user?.profileImage ? (
                 <img
-                  src={`http://localhost:5000${user.profileImage}`}
+                  src={user.profileImage}
                   alt="Profile"
                   className="dropdown-avatar"
+                  onError={(e) => console.log("Image failed:", e.target.src)}
                 />
               ) : (
                 initial

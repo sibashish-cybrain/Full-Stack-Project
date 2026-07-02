@@ -70,11 +70,6 @@ app.use(limiter);
 app.use(express.json());
 app.use(cookieParser());
 
-// Serve uploaded images
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "uploads"))
-);
 // Session Configuration
 // Required for Passport Authentication
 app.use(

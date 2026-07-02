@@ -1,29 +1,24 @@
 const multer = require("multer");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
-// Configure storage
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
+// Configure Cloudinary Storage
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "hrms-profile-images",
+    allowed_formats: ["jpg", "jpeg", "png", "webp"],
+    public_id: (req, file) => {
+      return "profile-" + Date.now();
+    },
   },
-  filename: (req, file, cb) => {
-    const uniqueName =
-      "profile-" +
-      Date.now() +
-      path.extname(file.originalname);
-
-    cb(null, uniqueName);
-  }
 });
 
 // Allow only image files
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|webp/;
-  const isValidExtension = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
-  );
   const isValidMime = allowedTypes.test(file.mimetype);
-  if (isValidExtension && isValidMime) {
+  if (isValidMime) {
     cb(null, true);
   } else {
     cb(new Error("Only image files are allowed"), false);
